@@ -1,0 +1,7 @@
+parameters:
+  randomuserapi:
+    api_url: 'https://randomuser.me/api'
+    default_results_limit: 100
+    default_filters:
+      nat: 'au'
+      exc: ['nat', 'registered', 'dob', 'cell', 'id', 'picture']
