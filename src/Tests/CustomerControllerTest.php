@@ -9,8 +9,6 @@ use App\Service\CustomerService;
 
 class CustomerControllerTest extends WebTestCase
 {
-    private CustomerService $customerService;
-    private CustomerMapperResponse $customerMapperResponse;
 
     public function testGetCustomersSuccess(): void
     {
@@ -150,7 +148,7 @@ class CustomerControllerTest extends WebTestCase
 
             $client->getContainer()->set(CustomerService::class, $customerService);
 
-            $client->request('GET', '/customers/01010101');
+            $client->request('GET', '/customers/101');
 
             $response = $client->getResponse();
             $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
@@ -167,7 +165,7 @@ class CustomerControllerTest extends WebTestCase
         try {
             $client = static::createClient();
 
-            $client->request('GET', '/customers/x');
+            $client->request('GET', '/customers/-9');
 
             $response = $client->getResponse();
             $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
