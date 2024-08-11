@@ -1,8 +1,8 @@
 <?php
 namespace App\Service;
 
-use App\Helpers\ServerResponseCodes;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Entity\Customer;
 use App\Helpers\Utility;
@@ -38,7 +38,7 @@ class CustomerService
 
             return $customer;
         } else {
-            throw new BadRequestHttpException('User is null.', null, ServerResponseCodes::$BAD_REQUEST);
+            throw new BadRequestHttpException('User is null.', null, Response::HTTP_BAD_REQUEST);
         }
     }
 

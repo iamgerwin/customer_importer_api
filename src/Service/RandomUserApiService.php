@@ -1,11 +1,11 @@
 <?php
 namespace App\Service;
 
-use App\Helpers\ServerResponseCodes;
 use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Component\HttpFoundation\Response;
 
 class RandomUserApiService
 {
@@ -56,7 +56,7 @@ class RandomUserApiService
             $data = json_decode($response->getBody()->getContents(), true);
             return $data['results'] ?? [];
         } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), ServerResponseCodes::$INTERNAL_SERVER_ERROR);
+            throw new Exception($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }
 }
