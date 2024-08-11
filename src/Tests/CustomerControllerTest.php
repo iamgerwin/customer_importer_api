@@ -150,7 +150,7 @@ class CustomerControllerTest extends WebTestCase
 
             $client->getContainer()->set(CustomerService::class, $customerService);
 
-            $client->request('GET', '/customers/999'); // Assuming 999 does not exist
+            $client->request('GET', '/customers/01010101');
 
             $response = $client->getResponse();
             $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
@@ -167,7 +167,7 @@ class CustomerControllerTest extends WebTestCase
         try {
             $client = static::createClient();
 
-            $client->request('GET', '/customers/-1'); // Invalid ID
+            $client->request('GET', '/customers/x');
 
             $response = $client->getResponse();
             $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
