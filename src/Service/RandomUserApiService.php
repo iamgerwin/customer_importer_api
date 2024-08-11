@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Helpers\ServerResponseCodes;
 use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use GuzzleHttp\Client;
@@ -55,7 +56,7 @@ class RandomUserApiService
             $data = json_decode($response->getBody()->getContents(), true);
             return $data['results'] ?? [];
         } catch (GuzzleException $e) {
-            throw new Exception($e->getMessage(), 500);
+            throw new Exception($e->getMessage(), ServerResponseCodes::$INTERNAL_SERVER_ERROR);
         }
     }
 }

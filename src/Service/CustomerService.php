@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use App\Helpers\ServerResponseCodes;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Entity\Customer;
@@ -37,7 +38,17 @@ class CustomerService
 
             return $customer;
         } else {
-            throw new BadRequestHttpException('User is null.', null, 400);
+            throw new BadRequestHttpException('User is null.', null, ServerResponseCodes::$BAD_REQUEST);
         }
+    }
+
+    public function getOne(int $id): ?Customer
+    {
+        return $this->entityManager->getRepository(Customer::class)->find($id);
+    }
+
+    public function getAll(): array
+    {
+        return $this->entityManager->getRepository(Customer::class)->findAll();
     }
 }
