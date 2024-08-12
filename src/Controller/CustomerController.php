@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends AbstractController
 {
@@ -36,13 +37,14 @@ class CustomerController extends AbstractController
         ?int                   $id
     ): JsonResponse
     {
-        if ($id <= 0) {
-            throw new BadRequestHttpException("Invalid customer ID requested.", null, 400);
+        if (!is_integer($id) || $id <= 0) {
+            throw new BadRequestHttpException("Invalid customer ID requested.", null, Response::HTTP_BAD_REQUEST);
         }
 
         $customer = $customerService->getOne($id);
+
         if (is_null($customer)) {
-            throw new NotFoundHttpException('Customer not found.', null, 404);
+            throw new NotFoundHttpException('Customer not found.', null, Response::HTTP_NOT_FOUND);
         }
 
         $return = $customerMapperResponse->map($customer);

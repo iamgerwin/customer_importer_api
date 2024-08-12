@@ -107,7 +107,7 @@ class CustomerResponse
                 'gender' => $this->getGender(),
                 'country' => $this->getCountry(),
                 'city' => $this->getCity(),
-                'phone' => $this->getPhone()
+                'phone' => $this->getPhone(),
             ];
         } else {
             return [

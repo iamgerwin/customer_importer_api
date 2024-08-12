@@ -45,11 +45,14 @@ class CustomerImportCommand extends Command
     {
         $helper = $this->getHelper('question');
 
-        $resultLimitQuestion = new Question('How many you need to import? [default is '.$this->defaultResultsLimit.']: ');
+        $resultLimitQuestion = new Question('How many you need to import? [default & minimum is '.$this->defaultResultsLimit.']: ');
         $resultLimit = $helper->ask($input, $output, $resultLimitQuestion);
+        $resultLimit = $resultLimit < 100 ? $this->defaultResultsLimit : $resultLimit;
 
         $filterNationalityQuestion = new Question('Preferred Nationality? (options: AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IN, IR, MX, NL, NO, NZ, RS, TR, UA, US) [default is '.strtoupper($this->defaultNationality).']: ');
         $filterNationality = $helper->ask($input, $output, $filterNationalityQuestion);
+        $allowed_nat = ['AU', 'BR', 'CA', 'CH', 'DE', 'DK', 'ES', 'FI', 'FR', 'GB', 'IE', 'IN', 'IR', 'MX', 'NL', 'NO', 'NZ', 'RS', 'TR', 'UA', 'US'];
+        $filterNationality = in_array($filterNationality, $allowed_nat) ? $filterNationality : $this->defaultNationality;
 
         $importedUsers = $this->randomUserApi->get($resultLimit, $filterNationality);
         $output->writeln("Successfully imported users from API.");
@@ -61,7 +64,7 @@ class CustomerImportCommand extends Command
             $count++;
         }
 
-        $output->writeln("\nA total of ".$count." imported users were successfully saved to the database.");
+        $output->writeln("\nTotal of ".$count." imported customers were successfully saved to the database.");
 
         return Command::SUCCESS;
     }
